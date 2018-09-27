@@ -1,9 +1,5 @@
-
-
 *
-elpa/
 !.gitignore
 !init.el
-!*/
 
 
