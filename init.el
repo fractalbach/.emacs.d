@@ -1,75 +1,90 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (wombat))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "unknown" :slant normal :weight normal :height 143 :width normal)))))
 
-
-
-;; MELPA
-;; copied code from https://www.emacswiki.org/emacs/MELPA
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
+;; MELPA Stable and use-package.
 (require 'package)
-(add-to-list 'package-archives '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 
 
-;; Add flycheck
+;; Packages
+;; --------------------------------------------------
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
+(use-package auto-complete
+  :ensure t)
 
-;; Set cursor color to white
-(set-cursor-color "#ffffff")
+(use-package go-autocomplete
+  :ensure t)
 
-;; javascript stuff.
-;; (add-hook 'js-mode-hook 'js2-minor-mode)
-;; (add-hook 'js2-mode-hook 'ac-js2-mode)
-;; (setq js2-highlight-level 3)
+(use-package go-mode
+  :ensure t)
 
 
-;; Code supplied from auto-complete-for-go documentation
+
+;; Configure auto-completion
+;; --------------------------------------------------
+
 (defun auto-complete-for-go ()
-  "Activates autocomplete for go."
+  "Activates go auto-complete mode."
   (auto-complete-mode 1))
- (add-hook 'go-mode-hook 'auto-complete-for-go)
+(add-hook 'go-mode-hook 'auto-complete-for-go)
 
 
-(with-eval-after-load 'go-mode
-  (require 'go-autocomplete)
-  )
 
-;; Personal code: <C-Return>
-;; Makes it more fun to write go, because it
-;; can be evaluated quickly
+
+
+
+;; Functions that I wrote
+;; --------------------------------------------------
+
 (defun go-myrun ()
   "My go-run command; does extra stuff."
   (interactive)
   (funcall 'save-buffer)
   (funcall 'gofmt)
-  (funcall 'go-run)
-  )
+  (funcall 'go-run))
 
 (defun my-go-config ()
   "Setup my personal go-mode configuration."
-  (local-set-key (kbd "<C-return>") 'go-myrun)
-  )
-
-  (add-hook 'go-mode-hook 'my-go-config)
+  (local-set-key (kbd "<C-return>") 'go-myrun))
+(add-hook 'go-mode-hook 'my-go-config)
 
 
+
+;; Javascript stuff
+;; --------------------------------------------------
+;; (add-hook 'js-mode-hook 'js2-minor-mode)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
+;; (setq js2-highlight-level 3)
+
+
+
+
+;; Various other customizations
+;; --------------------------------------------------
+;; (set-cursor-color "#ffffff")
 (electric-pair-mode)
 
-(provide 'init)
-;;; init.el ends here
+
+
+
+
+
+;; ============================================================
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (flycheck use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
